@@ -35,7 +35,7 @@ class FacetWP_Facet_Monthly {
         SELECT DATE_FORMAT(f.facet_value, '%Y-%m') as facet_value, f.facet_display_value, COUNT(*) AS counter
         FROM {$wpdb->prefix}facetwp_index f
         WHERE f.facet_name = '{$facet['name']}' $where_clause
-        GROUP BY f.facet_value
+        GROUP BY DATE_FORMAT(f.facet_value, '%Y-%m')
         ORDER BY $orderby
         LIMIT $limit";
 
