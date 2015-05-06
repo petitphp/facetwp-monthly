@@ -162,14 +162,14 @@ class FacetWP_Facet_Monthly {
 		<script>
 			(function($) {
 				wp.hooks.addAction('facetwp/load/monthly', function($this, obj) {
-					$this.find('.type-monthly .facet-source').val(obj['source']);
+					$this.find('.facet-source').val(obj['source']);
 					$this.find('.type-monthly .facet-label-any').val(obj['label_any']);
 					$this.find('.type-monthly .facet-orderby').val(obj['orderby']);
 					$this.find('.type-monthly .facet-count').val(obj['count']);
 				});
 
 				wp.hooks.addFilter('facetwp/save/monthly', function($this, obj) {
-					obj['source']    = $this.find('.type-monthly .facet-source').val();
+					obj['source']    = $this.find('.facet-source').val();
 					obj['label_any'] = $this.find('.type-monthly .facet-label-any').val();
 					obj['orderby']   = $this.find('.type-monthly .facet-orderby').val();
 					obj['count']     = $this.find('.type-monthly .facet-count').val();
