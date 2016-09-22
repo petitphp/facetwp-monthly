@@ -1,4 +1,5 @@
 <?php
+
 class FacetWP_Facet_Monthly {
 
 	function __construct() {
@@ -18,17 +19,17 @@ class FacetWP_Facet_Monthly {
 
 		// Orderby
 		$orderby = 'f.facet_display_value DESC';
-		if( 'asc' === $facet['orderby'] ) {
+		if ( 'asc' === $facet['orderby'] ) {
 			$orderby = 'f.facet_display_value ASC';
 		}
 
 		// Limit
 		$limit = 10;
-		if( absint( $facet['count'] ) > 0 ) {
+		if ( absint( $facet['count'] ) > 0 ) {
 			$limit = absint( $facet['count'] );
 		}
 
-		$orderby = apply_filters( 'facetwp_facet_orderby', $orderby, $facet );
+		$orderby      = apply_filters( 'facetwp_facet_orderby', $orderby, $facet );
 		$where_clause = apply_filters( 'facetwp_facet_where', $where_clause, $facet );
 
 		$sql = "
@@ -47,15 +48,16 @@ class FacetWP_Facet_Monthly {
 	 */
 	function render( $params ) {
 
-		$output = '';
-		$facet = $params['facet'];
-		$values = (array) $params['values'];
+		$output          = '';
+		$facet           = $params['facet'];
+		$values          = (array) $params['values'];
 		$selected_values = (array) $params['selected_values'];
 
-		$label_any = empty( $facet['label_any'] ) ? __( 'Any', 'fwp' ) : sprintf( __( '%s', 'fwp' ), $facet['label_any'] );
+		$label_any = empty( $facet['label_any'] ) ? __( 'Any', 'fwp' ) : sprintf( __( '%s', 'fwp' ),
+			$facet['label_any'] );
 
 		$output .= '<select class="facetwp-monthly">';
-		$output .= '<option value="">' . esc_attr( $label_any ) . '</option>';
+		$output .= sprintf( '<option value="">%s</option>', esc_html( $label_any ) );
 
 		foreach ( $values as $result ) {
 			$selected = in_array( $result['facet_value'], $selected_values ) ? ' selected' : '';
@@ -67,10 +69,14 @@ class FacetWP_Facet_Monthly {
 				$display_value .= sprintf( ' (%s)', $result['counter'] );
 			}
 
-			$output .= sprintf( '<option value="%s" %s>%s</option>', $result['facet_value'], $selected, $display_value );
+			$output .= sprintf( '<option value="%s" %s>%s</option>',
+				esc_attr( $result['facet_value'] ),
+				$selected,
+				esc_html( $display_value ) );
 		}
 
 		$output .= '</select>';
+
 		return $output;
 	}
 
@@ -80,15 +86,15 @@ class FacetWP_Facet_Monthly {
 	function filter_posts( $params ) {
 		global $wpdb;
 
-		$output = array();
-		$facet = $params['facet'];
+		$output          = array();
+		$facet           = $params['facet'];
 		$selected_values = $params['selected_values'];
 
 		// Convert the selected value into an array
 		// "0000-00" => array( year, month );
 		$dates = explode( '-', reset( $selected_values ) );
 
-		if( count( $dates ) < 2 ) {
+		if ( count( $dates ) < 2 ) {
 			$dates = array( date( 'Y' ), date( 'm' ) );
 		}
 
@@ -123,7 +129,7 @@ class FacetWP_Facet_Monthly {
 				</div>
 			</td>
 			<td>
-				<input type="text" class="facet-label-any" value="<?php _e( 'Any', 'fwp' ); ?>" />
+				<input type="text" class="facet-label-any" value="<?php _e( 'Any', 'fwp' ); ?>"/>
 			</td>
 		</tr>
 		<tr class="facetwp-conditional type-monthly">
@@ -145,13 +151,14 @@ class FacetWP_Facet_Monthly {
 		</tr>
 		<tr class="facetwp-conditional type-monthly">
 			<td>
-				<?php _e('Count', 'fwp'); ?>:
+				<?php _e( 'Count', 'fwp' ); ?>:
 				<div class="facetwp-tooltip">
 					<span class="icon-question">?</span>
-					<div class="facetwp-tooltip-content"><?php _e( 'The maximum number of facet choices to show', 'fwp' ); ?></div>
+					<div class="facetwp-tooltip-content"><?php _e( 'The maximum number of facet choices to show',
+							'fwp' ); ?></div>
 				</div>
 			</td>
-			<td><input type="text" class="facet-count" value="10" /></td>
+			<td><input type="text" class="facet-count" value="10"/></td>
 		</tr>
 	<?php }
 
@@ -160,19 +167,19 @@ class FacetWP_Facet_Monthly {
 	 */
 	function admin_scripts() { ?>
 		<script>
-			(function($) {
-				wp.hooks.addAction('facetwp/load/monthly', function($this, obj) {
+			(function ($) {
+				wp.hooks.addAction('facetwp/load/monthly', function ($this, obj) {
 					$this.find('.facet-source').val(obj['source']);
 					$this.find('.type-monthly .facet-label-any').val(obj['label_any']);
 					$this.find('.type-monthly .facet-orderby').val(obj['orderby']);
 					$this.find('.type-monthly .facet-count').val(obj['count']);
 				});
 
-				wp.hooks.addFilter('facetwp/save/monthly', function($this, obj) {
-					obj['source']    = $this.find('.facet-source').val();
+				wp.hooks.addFilter('facetwp/save/monthly', function ($this, obj) {
+					obj['source'] = $this.find('.facet-source').val();
 					obj['label_any'] = $this.find('.type-monthly .facet-label-any').val();
-					obj['orderby']   = $this.find('.type-monthly .facet-orderby').val();
-					obj['count']     = $this.find('.type-monthly .facet-count').val();
+					obj['orderby'] = $this.find('.type-monthly .facet-orderby').val();
+					obj['count'] = $this.find('.type-monthly .facet-count').val();
 					return obj;
 				});
 			})(jQuery);
@@ -184,14 +191,14 @@ class FacetWP_Facet_Monthly {
 	 */
 	function front_scripts() { ?>
 		<script>
-			(function($) {
-				wp.hooks.addAction('facetwp/refresh/monthly', function($this, facet_name) {
+			(function ($) {
+				wp.hooks.addAction('facetwp/refresh/monthly', function ($this, facet_name) {
 					var val = $this.find('.facetwp-monthly').val();
 					FWP.facets[facet_name] = val ? [val] : [];
 				});
 
-				wp.hooks.addAction('facetwp/ready', function() {
-					$(document).on('change', '.facetwp-facet .facetwp-monthly', function() {
+				wp.hooks.addAction('facetwp/ready', function () {
+					$(document).on('change', '.facetwp-facet .facetwp-monthly', function () {
 						var $facet = $(this).closest('.facetwp-facet');
 						if ('' != $facet.find(':selected').val()) {
 							FWP.static_facet = $facet.attr('data-name');

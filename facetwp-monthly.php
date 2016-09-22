@@ -9,7 +9,7 @@ Author URI: https://github.com/petitphp
 */
 
 // don't load directly
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
@@ -20,7 +20,7 @@ define( 'FWP_MTLY_DIR', plugin_dir_path( __FILE__ ) );
 class FWP_MTLY {
 
 	function __construct() {
-		add_action( 'init' , array( $this, 'init' ) );
+		add_action( 'init', array( $this, 'init' ) );
 	}
 
 
@@ -41,6 +41,7 @@ class FWP_MTLY {
 	function register_facet_type( $facet_types ) {
 		include( dirname( __FILE__ ) . '/classes/monthly.php' );
 		$facet_types['monthly'] = new FacetWP_Facet_Monthly();
+
 		return $facet_types;
 	}
 }
