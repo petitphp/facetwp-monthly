@@ -39,7 +39,7 @@ class FacetWP_Facet_Monthly {
         ORDER BY $orderby
         LIMIT $limit";
 
-		return $wpdb->get_results( $sql );
+		return $wpdb->get_results( $sql, ARRAY_A );
 	}
 
 	/**
@@ -58,16 +58,16 @@ class FacetWP_Facet_Monthly {
 		$output .= '<option value="">' . esc_attr( $label_any ) . '</option>';
 
 		foreach ( $values as $result ) {
-			$selected = in_array( $result->facet_value, $selected_values ) ? ' selected' : '';
+			$selected = in_array( $result['facet_value'], $selected_values ) ? ' selected' : '';
 
-			$display_value = date_i18n( 'F Y', strtotime( $result->facet_display_value ) );
+			$display_value = date_i18n( 'F Y', strtotime( $result['facet_display_value'] ) );
 			// Determine whether to show counts
 			$show_counts = apply_filters( 'facetwp_facet_dropdown_show_counts', true );
 			if ( $show_counts ) {
-				$display_value .= " ($result->counter)";
+				$display_value .= sprintf( ' (%s)', $result['counter'] );
 			}
 
-			$output .= '<option value="' . $result->facet_value . '"' . $selected . '>' . $display_value . '</option>';
+			$output .= sprintf( '<option value="%s" %s>%s</option>', $result['facet_value'], $selected, $display_value );
 		}
 
 		$output .= '</select>';
