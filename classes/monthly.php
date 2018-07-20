@@ -86,7 +86,7 @@ class FacetWP_Facet_Monthly {
 	function filter_posts( $params ) {
 		global $wpdb;
 
-		$output          = [];
+		$output          = array();
 		$facet           = $params['facet'];
 		$selected_values = $params['selected_values'];
 
@@ -95,7 +95,7 @@ class FacetWP_Facet_Monthly {
 		$dates = explode( '-', reset( $selected_values ) );
 
 		if ( count( $dates ) < 2 ) {
-			$dates = [ date( 'Y' ), date( 'm' ) ];
+			$dates = array( date( 'Y' ), date( 'm' )  );
 		}
 
 		$sql = $wpdb->prepare( "SELECT DISTINCT post_id
