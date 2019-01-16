@@ -3,7 +3,7 @@
 class FacetWP_Facet_Monthly {
 
 	function __construct() {
-		$this->label = __( 'Monthly archive', 'fwp' );
+		$this->label = __( 'Monthly Archive', 'fwp' );
 	}
 
 	/**
