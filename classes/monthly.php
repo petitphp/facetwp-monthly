@@ -168,19 +168,19 @@ class FacetWP_Facet_Monthly {
 	function admin_scripts() { ?>
 		<script>
 			(function ($) {
-				wp.hooks.addAction('facetwp/load/monthly', function ($this, obj) {
-				$this.find('.facet-source').val(obj['source']);
-				$this.find('.type-monthly .facet-label-any').val(obj['label_any']);
-				$this.find('.type-monthly .facet-orderby').val(obj['orderby']);
-				$this.find('.type-monthly .facet-count').val(obj['count']);
+				FWP.hooks.addAction('facetwp/load/monthly', function ($this, obj) {
+					$this.find('.facet-source').val(obj['source']);
+					$this.find('.type-monthly .facet-label-any').val(obj['label_any']);
+					$this.find('.type-monthly .facet-orderby').val(obj['orderby']);
+					$this.find('.type-monthly .facet-count').val(obj['count']);
 				});
 
-				wp.hooks.addFilter('facetwp/save/monthly', function ($this, obj) {
-				obj['source'] = $this.find('.facet-source').val();
-				obj['label_any'] = $this.find('.type-monthly .facet-label-any').val();
-				obj['orderby'] = $this.find('.type-monthly .facet-orderby').val();
-				obj['count'] = $this.find('.type-monthly .facet-count').val();
-				return obj;
+				FWP.hooks.addFilter('facetwp/save/monthly', function ($this, obj) {
+					obj['source'] = $this.find('.facet-source').val();
+					obj['label_any'] = $this.find('.type-monthly .facet-label-any').val();
+					obj['orderby'] = $this.find('.type-monthly .facet-orderby').val();
+					obj['count'] = $this.find('.type-monthly .facet-count').val();
+					return obj;
 				});
 			})(jQuery);
 		</script>
@@ -192,19 +192,19 @@ class FacetWP_Facet_Monthly {
 	function front_scripts() { ?>
 		<script>
 			(function ($) {
-				wp.hooks.addAction('facetwp/refresh/monthly', function ($this, facet_name) {
-				var val = $this.find('.facetwp-monthly').val();
-				FWP.facets[facet_name] = val ? [val] : [];
+				FWP.hooks.addAction('facetwp/refresh/monthly', function ($this, facet_name) {
+					var val = $this.find('.facetwp-monthly').val();
+					FWP.facets[facet_name] = val ? [val] : [];
 				});
 
-				wp.hooks.addAction('facetwp/ready', function () {
-				$(document).on('change', '.facetwp-facet .facetwp-monthly', function () {
-					var $facet = $(this).closest('.facetwp-facet');
-					if ('' != $facet.find(':selected').val()) {
-					FWP.static_facet = $facet.attr('data-name');
-					}
-					FWP.autoload();
-				});
+				FWP.hooks.addAction('facetwp/ready', function () {
+					$(document).on('change', '.facetwp-facet .facetwp-monthly', function () {
+						var $facet = $(this).closest('.facetwp-facet');
+						if ('' != $facet.find(':selected').val()) {
+							FWP.static_facet = $facet.attr('data-name');
+						}
+						FWP.autoload();
+					});
 				});
 			})(jQuery);
 		</script>
