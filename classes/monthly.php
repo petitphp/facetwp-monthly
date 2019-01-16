@@ -55,7 +55,11 @@ class FacetWP_Facet_Monthly {
 
 		$label_any = empty( $facet['label_any'] ) ? __( 'Any', 'fwp' ) : sprintf( __( '%s', 'fwp' ), $facet['label_any'] );
 
-		$output .= '<select class="facetwp-monthly">';
+		// Setting classes for the select element.
+		$select_classes = empty( $selected_values ) ? 'facetwp-monthly facetwp-monthly-default' : 'facetwp-monthly';
+
+		// Building select HTML element for the facet backend.
+		$output .= '<select class="' . $select_classes . '">';
 		$output .= sprintf( '<option value="">%s</option>', esc_html( $label_any ) );
 
 		foreach ( $values as $result ) {
@@ -200,9 +204,9 @@ class FacetWP_Facet_Monthly {
 				FWP.hooks.addAction('facetwp/ready', function () {
 					$(document).on('change', '.facetwp-facet .facetwp-monthly', function () {
 						var $facet = $(this).closest('.facetwp-facet');
-						if ('' != $facet.find(':selected').val()) {
-							FWP.static_facet = $facet.attr('data-name');
-						}
+						var isDefault = $facet.find(':selected').val() === '';
+						if (!isDefault) FWP.static_facet = $facet.attr('data-name');
+						$facet.find('select').toggleClass('facetwp-monthly-default', isDefault)
 						FWP.autoload();
 					});
 				});
