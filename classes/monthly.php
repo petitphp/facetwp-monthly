@@ -67,7 +67,7 @@ class FacetWP_Facet_Monthly {
 
 			$display_value = date_i18n( 'F Y', strtotime( $result['facet_display_value'] ) );
 			// Determine whether to show counts
-			$show_counts = apply_filters( 'facetwp_facet_dropdown_show_counts', true );
+			$show_counts = apply_filters( 'facetwp_facet_dropdown_show_counts', true, $params );
 			if ( $show_counts ) {
 				$display_value .= sprintf( ' (%s)', $result['counter'] );
 			}
