@@ -3,7 +3,7 @@
 Plugin Name: FacetWP - Monthly
 Plugin URI: https://github.com/petitphp/facetwp-monthly
 Description: Filter your posts by monthly archive
-Version: 2.0.1
+Version: 2.0.2
 Author: Clément Boirie
 Author URI: https://github.com/petitphp
 */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-define( 'FWP_MTLY_VER', '2.0.1' );
+define( 'FWP_MTLY_VER', '2.0.2' );
 define( 'FWP_MTLY_URL', plugin_dir_url( __FILE__ ) );
 define( 'FWP_MTLY_DIR', plugin_dir_path( __FILE__ ) );
 
