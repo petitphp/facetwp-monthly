@@ -1,6 +1,6 @@
 <?php
 
-class FacetWP_Facet_Monthly {
+class FacetWP_Facet_Monthly extends FacetWP_Facet {
 
 	function __construct() {
 		$this->label = __( 'Monthly Archive', 'fwp' );
